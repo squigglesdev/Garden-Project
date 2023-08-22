@@ -11,6 +11,7 @@ let bodyColor = "#fff";
 
 let sunPosX = 0;
 
+
 let apocalypse = false;
 
 let time = 1;
@@ -34,9 +35,9 @@ function draw() {
         groundColor = lerpColor(color("#180000"), color("#75b560"), time);
         sunColor = lerpColor(color("#be2502"), color("#fffa73"), time);
         soilColor = lerpColor(color("#000"), color("#786c4f"), time);
-        changeText("Cozy Garden", skyColor);
+        changeText("Cosy Garden", skyColor);
         bodyColor = lerpColor(color("#000"), color("#fff"), time);
-        changeBody(bodyColor);
+        changeBody(bodyColor, "icons/Cosy.png");
         for (let f of flowers) {
             f.display();
         }
@@ -52,7 +53,7 @@ function draw() {
         soilColor = lerpColor(color("#786c4f"), color("#000"), time);
         changeText("Hellish Garden", skyColor);
         bodyColor = lerpColor(color("#fff"), color("#000"), time);
-        changeBody(bodyColor);
+        changeBody(bodyColor, "icons/Hellish.png");
         for (let f of apocalypseFlowers) {
             f.display();
         }
@@ -138,11 +139,15 @@ function changeText(text, color){
     toChange = document.getElementById("title");
     toChange.innerHTML = text;
     toChange.style.color = color;
+    toChange = document.getElementById("pageTitle");
+    toChange.innerHTML = text;
 }
 
-function changeBody(color){
+function changeBody(color, icon){
     toChange = document.getElementById("body");
     toChange.style.backgroundColor = color;
+    toChange = document.querySelector("link[rel~='icon']");
+    toChange.href = icon;
 }
 
 function createFlower() {
