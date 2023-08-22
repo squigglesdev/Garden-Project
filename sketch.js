@@ -19,6 +19,7 @@ let currentCash = 50;
 let cashMeter = document.getElementById("cash");
 
 let apocalypse = false;
+let firstTime = true;
 
 let time = 1;
 
@@ -91,15 +92,35 @@ function draw() {
     text("$50", 712, 107)
     cashMeter.innerHTML = "$" + currentCash;
 
+    if(flowersBought > 0 && firstTime) {
+        fill("#000");
+        textFont("Cera Pro");
+        textSize(20);
+        text("Click anywhere in the green area to plant", 20, 355);
+    }
+
+    if(flowersBought == 0 && firstTime) {
+        fill("#000");
+        textFont("Cera Pro");
+        textSize(20);
+        text("Click to buy a flower →", 450, 75);
+    }
+
+    if(flowersBought > 0) {
+        fill("#fff");
+        circle(765, 25, 20)
+        fill("#000");
+        textFont("Cera Pro");
+        textAlign(CENTER);
+        textSize(15);
+        text(flowersBought, 765, 30);
+        textAlign(LEFT);
+    }
 
     if(buyFlowerButton) {
         if(currentCash >= 50) {
             currentCash -= 50;
             flowersBought += 1;
-            print("Flower bought");
-        }
-        else {
-            print("Not enough cash");
         }
     }
 
@@ -140,9 +161,7 @@ function mouseClicked() {
             if(flowersBought > 0) {
                 createFlower();
                 flowersBought -= 1;
-            }
-            else {
-                print("No flowers to plant");
+                firstTime = false;
             }
         }
         else {createApocalypseFlower();}
