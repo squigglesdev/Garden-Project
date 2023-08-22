@@ -22,6 +22,7 @@ function setup() {
 }
 
 function draw() {
+    strokeWeight(2);
     background(skyColor);
     fill(groundColor);
     square(-10, 300, 820);
@@ -181,8 +182,9 @@ class Flower {
     displayDead() {
         this.time -= 1;
         this.time = max(0, min(this.time, 100));
-        this.growth = easeOutBack(this.time, 0, 30, 100);
+        this.growth = easeInSine(this.time, 0, 30, 100);
         if (this.growth > 0) {line(this.x, this.y, this.x, this.y-(this.growth));}
+        else {strokeWeight(0);}
         drawFlower(this.x, this.y-(this.growth), (this.growth), this.r, this.g, this.b);
     }
 }
@@ -212,6 +214,7 @@ class ApocalypseFlower {
         this.time = max(0, min(this.time, 100));
         this.growth = easeInSine(this.time, 0, 30, 100);
         if (this.growth > 0) {line(this.x, this.y, this.x, this.y-(this.growth));}
+        else {strokeWeight(0);}
         drawApocalypseFlower(this.x, this.y-(this.growth), (this.growth), this.r, this.g, this.b, this.pointsA, this.pointsB);
     }
 }
