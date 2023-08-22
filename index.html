@@ -10,12 +10,16 @@
 
 <body id="body">
     <style>
+        html {
+            cursor: url('icons/Cursor.png') 7 3, default;
+        }
         body {
             padding: 0;
             margin-left: 1%;
             margin-top: 1%;
             margin-bottom: 0%;
             background-color: #ffffff;
+            cursor: url('icons/Cursor.png') 7 3, default;
         }
         h1 {
             font-family: 'Cera Pro', 'Century Gothic', sans-serif;
@@ -25,10 +29,33 @@
             color: #82e4ff;
             -webkit-text-stroke: 2px black;
             text-stroke: 2px black;
+            cursor: url('icons/Cursor.png') 7 3, default;
+        }
+        canvas {
+            cursor: url('icons/Cursor.png') 7 3, default !important;
+            border-radius: 25px;
+        }
+        #titleBar {
+            font-family: 'Cera Pro', 'Century Gothic', sans-serif;
+            display: flex;
+            gap: 400px;
+        }
+        #cash{
+            text-align: center;
+            font-weight: 500;
+            font-size: 35px;
+            line-height: 50px;
+            color: #cc9c00;
+            -webkit-text-stroke: 2px black;
+            text-stroke: 2px black;
         }
     </style>
-    <h1 id="title">Cozy Garden</h1>
+    <div id="titleBar">
+        <h1 id="title">Cozy Garden</h1>
+        <h3 id="cash">$50</h3>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/zturtledog/fez-ui/i-am-ui-new.js"></script>
     <script src="sketch.js"></script>
     <main>
     </main>

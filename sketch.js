@@ -3,6 +3,8 @@ const maxApocalypseFlowers = 1000;
 let flowers = [];
 let apocalypseFlowers = [];
 
+let cashIndicators = [];
+
 let skyColor = "#82e4ff";
 let groundColor = "#75b560";
 let sunColor = "#fffa73";
@@ -11,14 +13,21 @@ let bodyColor = "#fff";
 
 let sunPosX = 0;
 
+let flowersBought = 0;
+let currentCash = 50;
+
+let cashMeter = document.getElementById("cash");
 
 let apocalypse = false;
 
 let time = 1;
 
+let flowerImage;
+
 function setup() {
   createCanvas(800, 400);
   frameRate(165);
+  flowerImage = loadImage("icons/flowerPurchase.png");
 }
 
 function draw() {
@@ -45,6 +54,9 @@ function draw() {
         for (let f of apocalypseFlowers) {
             f.displayDead();
         }
+        for (let f of cashIndicators) {
+            f.display();
+        }
     }
     else {
         sunPosX = easeInOutSine(time, 0, 800, 1);
@@ -61,9 +73,37 @@ function draw() {
         for (let f of flowers) {
             f.displayDead();
         }
+        for (let f of cashIndicators) {
+            f.display();
+        }
     }
     time += 0.01;
     time = max(0, min(time, 1));
+
+
+    fill("#fff");
+    strokeWeight(2);
+    let buyFlowerButton = button(695, 25, 70, 90);
+    image(flowerImage, 700, 30, 60, 60);
+    fill("#000");
+    textFont("Cera Pro");
+    textSize(20);
+    text("$50", 712, 107)
+    cashMeter.innerHTML = "$" + currentCash;
+
+
+    if(buyFlowerButton) {
+        if(currentCash >= 50) {
+            currentCash -= 50;
+            flowersBought += 1;
+            print("Flower bought");
+        }
+        else {
+            print("Not enough cash");
+        }
+    }
+
+    uiupd();
 }
 
 function easeOutBack (t, b, c, d) {
@@ -97,10 +137,17 @@ function polygon(x, y, radius, npoints) {
 function mouseClicked() {
     if(mouseY > 300) {
         if (!apocalypse) {
-            createFlower();
+            if(flowersBought > 0) {
+                createFlower();
+                flowersBought -= 1;
+            }
+            else {
+                print("No flowers to plant");
+            }
         }
         else {createApocalypseFlower();}
     }
+    /*
     if(!apocalypse) {
         if(mouseY < 125 && mouseX < 125) {
             time = 0;
@@ -113,6 +160,7 @@ function mouseClicked() {
             apocalypse = !apocalypse;
         }
     }
+    */
 }
 
 function drawFlower(x, y, size, r, g, b) {
@@ -156,6 +204,11 @@ function createFlower() {
     flowers.push(f.setXYRGBT(mouseX, mouseY, random(255), random(255), random(255), 0.0));
 }
 
+function createCashIndicator(x, y, z) {
+    const c = cashIndicators.length == maxFlowers && cashIndicators.shift() || new CashIndicator;
+    cashIndicators.push(c.setXYCash(x, y, z));
+}
+
 function createApocalypseFlower() {
     const f = apocalypseFlowers.length == maxApocalypseFlowers && apocalypseFlowers.shift() || new ApocalypseFlower;
     apocalypseFlowers.push(f.setXYRGBT(mouseX, mouseY, random(70), random(25), random(25), 0.0));
@@ -168,6 +221,7 @@ class Flower {
     setXYRGBT(x, y, r, g, b, t) {
         this.x = x, this.y = y, this.r = r, this.g = g, this.b = b, this.time = t;
         this.growth = 0;
+        this.cashTime = 0;
         return this;
     }
     display() { 
@@ -175,6 +229,14 @@ class Flower {
         ellipse(this.x, this.y, 20, 10);
         this.time += 1;
         this.time = max(0, min(this.time, 100));
+        this.cashTime += 1;
+        fill("#000");
+        textFont("Cera Pro");
+        textSize(20);
+        if(this.cashTime % 1000 == 0) {
+            currentCash += 5;
+            createCashIndicator(this.x, this.y, 5);
+        }
         this.growth = easeOutBack(this.time, 0, 30, 100);
         line(this.x, this.y, this.x, this.y-(this.growth));
         drawFlower(this.x, this.y-(this.growth), (this.growth), this.r, this.g, this.b);
@@ -198,6 +260,7 @@ class ApocalypseFlower {
         this.growth = 0;
         this.pointsA = random(3, 8);
         this.pointsB = random(3, 8);
+        this.cashTime = 0;
         return this;
     }
     display() { 
@@ -205,6 +268,10 @@ class ApocalypseFlower {
         ellipse(this.x, this.y, 20, 10);
         this.time += 1;
         this.time = max(0, min(this.time, 100));
+        this.cashTime += 1;
+        if(this.cashTime % 100 == 0) {
+            currentCash += 10;
+        }
         this.growth = easeInSine(this.time, 0, 30, 100);
         line(this.x, this.y, this.x, this.y-(this.growth));
         drawApocalypseFlower(this.x, this.y-(this.growth), (this.growth), this.r, this.g, this.b, this.pointsA, this.pointsB);
@@ -216,5 +283,34 @@ class ApocalypseFlower {
         if (this.growth > 0) {line(this.x, this.y, this.x, this.y-(this.growth));}
         else {strokeWeight(0);}
         drawApocalypseFlower(this.x, this.y-(this.growth), (this.growth), this.r, this.g, this.b, this.pointsA, this.pointsB);
+    }
+}
+
+class CashIndicator {
+    constructor(x, y) { this.setXYCash(x, y, this.c); }
+    setXYCash(x, y, c) { 
+        this.x = x, 
+        this.y = y; 
+        this.c = c; 
+        this.time = 0;
+        return this;}
+    display() { 
+        this.time += 1;
+        if (this.time > 100) {
+            // Find the index of this instance in the cashIndicators array
+            const index = cashIndicators.indexOf(this);
+            if (index !== -1) {
+                // Remove this instance from the array
+                cashIndicators.splice(index, 1);
+            }
+            return;
+        }
+        this.alpha = 255 - easeOutSine(this.time, 0, 255, 100);
+        this.textColor = color(0, 0, 0, this.alpha);
+        fill(this.textColor);
+        textFont("Cera Pro");
+        textSize(20);
+        text("+ $" + this.c, this.x - 20, this.y-(50+easeOutSine(this.time, 0, 30, 100)));
+        this.textColor.setAlpha(easeOutSine(this.time, 255, 0, 100));
     }
 }
