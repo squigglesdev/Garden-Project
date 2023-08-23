@@ -8,3 +8,7 @@
 - [ ] Presteige system
 - [ ] Music
 - [ ] SFX
+- [ ] Touch support
+- [x] Falling apples
+- [ ] Saves append timestamp
+- [ ] Enemies

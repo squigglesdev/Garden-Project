@@ -569,7 +569,6 @@ class Tree {
         else {
             this.treeTime += 1;
             this.cashTime += 1;
-            print(this.cashTime % 2000);
             if(this.cashTime % 2000 == 3 || this.cashTime % 2000 == 0) {
                 createApple(this.x, this.y-200);
             }
@@ -583,13 +582,33 @@ class Tree {
 class Apple {
     constructor(x, y) { this.setXY(x, y); }
     setXY(x, y) {
+        this.yy = y;
         this.x = (x-50) + random(0, 80), 
         this.y = (y-60) + random(0, 150);
+        if (this.y > this.yy){
+            this.yy -= this.y + (this.yy - this.y);
+        }
+        else{
+            this.yy -= this.y - (this.y - this.yy);
+        }
+        this.time = 0;
         return this; 
     }
     display() {
+        this.time += 1;
         fill("#C34040");
         circle(this.x, this.y, 20);
+        if(this.time > 500) {
+            this.y = easeInSine(this.time, this.yy, 200, 100);
+        }
+        if(this.time > 600) {
+            createCashIndicator(this.x, this.y, 40, 10);
+            currentCash += 40;
+            const index = apples.indexOf(this);
+            if (index !== -1) {
+                apples.splice(index, 1);
+            }
+        }
     }
 }
 
