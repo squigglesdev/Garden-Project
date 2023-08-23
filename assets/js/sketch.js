@@ -1,7 +1,7 @@
 const maxFlowers = 1000;
 const maxGrass = 1000;
 const maxTrees = 1000;
-const maxApples = 20;
+const maxApples = 200;
 let flowers = [];
 let grass = [];
 let trees = [];
@@ -96,9 +96,6 @@ function parseFile(file) {
             trees.push(new Tree(ALLDATA.trees[t].x, ALLDATA.trees[t].y).setXY(ALLDATA.trees[t].x, ALLDATA.trees[t].y, 1000));
         }
         apples = [];
-        for(a in ALLDATA.apples) {
-            apples.push(new Apple(ALLDATA.apples[a].x, ALLDATA.apples[a].y).setXY(ALLDATA.apples[a].x, ALLDATA.apples[a].y));
-        }
         cashIndicators = [];
         for(c in ALLDATA.cashIndicators) {
             cashIndicators.push(new CashIndicator(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y).setXYCash(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y, ALLDATA.cashIndicators[c].c, ALLDATA.cashIndicators[c].offset));
@@ -120,6 +117,7 @@ function preload() {
     flowerImage = loadImage("assets/sprites/flowerPurchase.png");
     grassImage = loadImage("assets/sprites/grassPurchase.png");
     treeImage = loadImage("assets/sprites/appleTreePurchase.png");
+    unknownImage = loadImage("assets/sprites/unknownPurchase.png");
     font = loadFont("assets/fonts/ceraProMedium.otf");
 }
 
@@ -200,11 +198,29 @@ function draw() {
         textSize(20);
         text("$50", 730, 207);
     }
+    else{
+        fill("#aaaaaaaa");
+        rect(695, 125, 70, 90, 5);
+        image(unknownImage, 700, 130, 60, 60);
+        fill("#000");
+        textFont(font);
+        textSize(20);
+        text("$50", 730, 207);
+    }
 
     if(treesUnlocked) {
         fill("#fff");
         buyTreeButton = button(695, 225, 70, 90);
         image(treeImage, 700, 230, 60, 60);
+        fill("#000");
+        textFont(font);
+        textSize(20);
+        text("$500", 730, 307);
+    }
+    else{
+        fill("#aaaaaaaa");
+        rect(695, 225, 70, 90, 5);
+        image(unknownImage, 700, 230, 60, 60);
         fill("#000");
         textFont(font);
         textSize(20);
@@ -553,7 +569,8 @@ class Tree {
         else {
             this.treeTime += 1;
             this.cashTime += 1;
-            if(this.cashTime % 2000 == 3) {
+            print(this.cashTime % 2000);
+            if(this.cashTime % 2000 == 3 || this.cashTime % 2000 == 0) {
                 createApple(this.x, this.y-200);
             }
             this.treeTime = max(0, min(this.treeTime, 100));
