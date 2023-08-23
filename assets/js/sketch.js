@@ -68,15 +68,30 @@ function saveGame() {
 }
 
 function loadGame() {
+    // Create a hidden file input element
     const fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
     fileSelector.setAttribute("accept", "text/json");
+    fileSelector.style.display = "none"; // Hide the input
+
+    // Create a button or link to trigger the file input
+    const triggerButton = document.createElement("button");
+    triggerButton.textContent = "Select a JSON File"; // Change this text as needed
+    triggerButton.addEventListener('click', () => {
+        fileSelector.click();
+    });
+
+    // Add the file input and trigger button to the document
+    document.body.appendChild(fileSelector);
+    document.body.appendChild(triggerButton);
+
+    // Add an event listener to the file input
     fileSelector.addEventListener('change', (event) => {
         const fileList = event.target.files;
         parseFile(fileList[0]);
     });
-    fileSelector.discpatchEvent(new Event("click"));
 }
+
 
 function parseFile(file) {
     const reader = new FileReader();
