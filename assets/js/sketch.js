@@ -71,12 +71,14 @@ function loadGame() {
     // Create a hidden file input element
     const fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
-    fileSelector.setAttribute("accept", "text/json");
+    fileSelector.setAttribute("accept", ".json");
     fileSelector.style.display = "none"; // Hide the input
 
     // Create a button or link to trigger the file input
     const triggerButton = document.createElement("button");
     triggerButton.textContent = "Select a JSON File"; // Change this text as needed
+    triggerButton.style = "position: absolute; top: -10px; left: -50px;
+    triggerButton.click()
     triggerButton.addEventListener('click', () => {
         fileSelector.click();
     });
