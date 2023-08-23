@@ -47,14 +47,14 @@ function draw() {
     fill(sunColor);
     circle(sunPosX, 0, 250);
 
+    for (let g of grass) {
+        g.display();
+    }
 
     for (let f of flowers) {
         f.display();
     }
 
-    for (let g of grass) {
-        g.display();
-    }
 
     for (let c of cashIndicators) {
         c.display();
