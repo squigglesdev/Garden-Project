@@ -3,61 +3,23 @@
 
 <head>
   <title id="pageTitle">Cozy Garden</title>
-  <link rel="icon" type="image/png" href="icons/cosy.png">
+  <link rel="icon" type="image/png" href="assets/sprites/pageIcon.png">
+  <link rel="stylesheet" href="assets/css/stylesheet.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body id="body">
-    <style>
-        html {
-            cursor: url('icons/Cursor.png') 7 3, default;
-        }
-        body {
-            padding: 0;
-            margin-left: 1%;
-            margin-top: 1%;
-            margin-bottom: 0%;
-            background-color: #ffffff;
-            cursor: url('icons/Cursor.png') 7 3, default;
-        }
-        h1 {
-            font-family: 'Cera Pro', 'Century Gothic', sans-serif;
-            font-weight: 700;
-            font-size: 50px;
-            line-height: 50px;
-            color: #82e4ff;
-            -webkit-text-stroke: 2px black;
-            text-stroke: 2px black;
-            cursor: url('icons/Cursor.png') 7 3, default;
-        }
-        canvas {
-            cursor: url('icons/Cursor.png') 7 3, default !important;
-            border-radius: 25px;
-        }
-        #titleBar {
-            font-family: 'Cera Pro', 'Century Gothic', sans-serif;
-            display: flex;
-            gap: 400px;
-        }
-        #cash{
-            text-align: center;
-            font-weight: 500;
-            font-size: 35px;
-            line-height: 50px;
-            color: #cc9c00;
-            -webkit-text-stroke: 2px black;
-            text-stroke: 2px black;
-        }
-    </style>
-    <div id="titleBar">
-        <h1 id="title">Cozy Garden</h1>
-        <h3 id="cash">$50</h3>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/zturtledog/fez-ui/i-am-ui-new.js"></script>
-    <script src="sketch.js"></script>
     <main>
+        <div id="titleBar">
+            <h1 id="title">The Garden</h1>
+            <h3 id="cash">$50</h3>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/zturtledog/fez-ui/i-am-ui-new.js"></script>
+        <script src="assets/js/sketch.js"></script>
+        <div id="game"></div>
+        <p id="copyright">©️2023 Squigglesdev. Made with ❤️ and p5.js.</p>
     </main>
 </body>
 
