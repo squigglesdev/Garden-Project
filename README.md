@@ -4,4 +4,4 @@
 
 ## Roadmap
 - [ ] Add apple tree plant type
-- [ ] Save system
+- [x] Save system
