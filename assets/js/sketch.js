@@ -75,7 +75,7 @@ function loadGame() {
         const fileList = event.target.files;
         parseFile(fileList[0]);
     });
-    fileSelector.trigger("click");
+    fileSelector.discpatchEvent(new Event("click"));
 }
 
 function parseFile(file) {
