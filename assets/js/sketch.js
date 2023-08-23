@@ -38,7 +38,7 @@ let sunPosX = 0;
 let flowersBought = 0;
 let grassBought = 0;
 let treesBought = 0;
-let currentCash = 20;
+let currentCash = 40;
 
 let cashMeter = document.getElementById("cash");
 

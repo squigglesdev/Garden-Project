@@ -6,3 +6,5 @@
 - [x] Add apple tree plant type
 - [x] Save system
 - [ ] Presteige system
+- [ ] Music
+- [ ] SFX
