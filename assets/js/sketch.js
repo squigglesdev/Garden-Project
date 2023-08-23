@@ -1,9 +1,11 @@
 const maxFlowers = 1000;
 const maxGrass = 1000;
 const maxTrees = 1000;
+const maxApples = 20;
 let flowers = [];
 let grass = [];
 let trees = [];
+let apples = [];
 let cashIndicators = [];
 
 let ALLDATA = {};
@@ -35,7 +37,8 @@ let sunPosX = 0;
 
 let flowersBought = 0;
 let grassBought = 0;
-let currentCash = 50;
+let treesBought = 0;
+let currentCash = 20;
 
 let cashMeter = document.getElementById("cash");
 
@@ -50,10 +53,12 @@ function saveGame() {
         flowers: flowers,
         grass: grass,
         trees: trees,
+        apples: apples,
         cashIndicators: cashIndicators,
         flowersUnlocked: flowersUnlocked,
         treesUnlocked: treesUnlocked,
         flowersBought: flowersBought,
+        treesBought: treesBought,
         grassBought: grassBought,
         currentCash: currentCash,
         firstTime: firstTime,
@@ -63,54 +68,45 @@ function saveGame() {
 }
 
 function loadGame() {
-    print("load");
     const fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
     fileSelector.setAttribute("accept", ".json");
     fileSelector.addEventListener('change', (event) => {
         const fileList = event.target.files;
-        console.log(fileList);
         parseFile(fileList[0]);
     });
     fileSelector.click();
-
-    
-    /*
-    ALLDATA = loadJSON(file, function() {
-        flowers = ALLDATA.flowers;
-        grass = ALLDATA.grass;
-        trees = ALLDATA.trees;
-        cashIndicators = ALLDATA.cashIndicators;
-        flowersUnlocked = ALLDATA.flowersUnlocked;
-        treesUnlocked = ALLDATA.treesUnlocked;
-        flowersBought = ALLDATA.flowersBought;
-        grassBought = ALLDATA.grassBought;
-        currentCash = ALLDATA.currentCash;
-        firstTime = ALLDATA.firstTime;
-        time = ALLDATA.time;
-    });*/
 }
 
 function parseFile(file) {
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
         const result = event.target.result;
-        print(result);
         ALLDATA = JSON.parse(result);
-        print(ALLDATA);
+        flowers = [];
         for(f in ALLDATA.flowers) {
             flowers.push(new Flower(ALLDATA.flowers[f].x, ALLDATA.flowers[f].y).setXYRGBT(ALLDATA.flowers[f].x, ALLDATA.flowers[f].y, ALLDATA.flowers[f].r, ALLDATA.flowers[f].g, ALLDATA.flowers[f].b, ALLDATA.flowers[f].time));
         }
+        grass = [];
         for(g in ALLDATA.grass) {
             grass.push(new Grass(ALLDATA.grass[g].x, ALLDATA.grass[g].y).setXY(ALLDATA.grass[g].x, ALLDATA.grass[g].y));
         }
+        trees = [];
+        for(t in ALLDATA.trees) {
+            trees.push(new Tree(ALLDATA.trees[t].x, ALLDATA.trees[t].y).setXY(ALLDATA.trees[t].x, ALLDATA.trees[t].y), 1000);
+        }
+        apples = [];
+        for(a in ALLDATA.apples) {
+            apples.push(new Apple(ALLDATA.apples[a].x, ALLDATA.apples[a].y).setXY(ALLDATA.apples[a].x, ALLDATA.apples[a].y));
+        }
+        cashIndicators = [];
         for(c in ALLDATA.cashIndicators) {
             cashIndicators.push(new CashIndicator(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y).setXYCash(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y, ALLDATA.cashIndicators[c].c, ALLDATA.cashIndicators[c].offset));
         }
-        trees = ALLDATA.trees;
         flowersUnlocked = ALLDATA.flowersUnlocked;
         treesUnlocked = ALLDATA.treesUnlocked;
         flowersBought = ALLDATA.flowersBought;
+        treesBought = ALLDATA.treesBought;
         grassBought = ALLDATA.grassBought;
         currentCash = ALLDATA.currentCash;
         firstTime = ALLDATA.firstTime;
@@ -123,6 +119,7 @@ function parseFile(file) {
 function preload() {
     flowerImage = loadImage("assets/sprites/flowerPurchase.png");
     grassImage = loadImage("assets/sprites/grassPurchase.png");
+    treeImage = loadImage("assets/sprites/appleTreePurchase.png");
     font = loadFont("assets/fonts/ceraProMedium.otf");
 }
 
@@ -140,7 +137,6 @@ function draw() {
     
     fill(sunColor);
     circle(sunPosX, 0, 250);
-
     
     for (let g of grass) {
         g.display();
@@ -148,6 +144,14 @@ function draw() {
 
     for (let f of flowers) {
         f.display();
+    }
+
+    for (let t of trees) {
+        t.display();
+    }
+
+    for (let a of apples) {
+        a.display();
     }
 
     for (let c of cashIndicators) {
@@ -197,6 +201,16 @@ function draw() {
         text("$50", 730, 207);
     }
 
+    if(treesUnlocked) {
+        fill("#fff");
+        buyTreeButton = button(695, 225, 70, 90);
+        image(treeImage, 700, 230, 60, 60);
+        fill("#000");
+        textFont(font);
+        textSize(20);
+        text("$500", 730, 307);
+    }
+
     cashMeter.innerHTML = "$" + currentCash;
 
     textAlign(LEFT);
@@ -234,11 +248,31 @@ function draw() {
         textSize(15);
         text(grassBought, 765, 30);
     }
+
+    if(treesBought > 0) {
+        fill("#fff");
+        circle(765, 225, 25)
+        fill("#000");
+        textFont(font);
+        textSize(15);
+        text(treesBought, 765, 230);
+    }
+
     if(flowersUnlocked) {
         if(buyFlowerButton) {
             if(currentCash >= 50) {
                 currentCash -= 50;
                 flowersBought += 1;
+            }
+        }
+    }
+
+    if(treesUnlocked) {
+        if(buyTreeButton) {
+            if(currentCash >= 500) {
+                currentCash -= 500;
+                treesBought += 1;
+                print(treesBought);
             }
         }
     }
@@ -250,8 +284,12 @@ function draw() {
         }
     }
 
-    if(currentCash >= 100) {
+    if(currentCash >= 50) {
         flowersUnlocked = true;
+    }
+
+    if(currentCash >= 500) {
+        treesUnlocked = true;
     }
 
     if(saveButton) {
@@ -305,7 +343,23 @@ function mouseClicked() {
             grassBought -= 1;
             firstTime = false;
         }
+        else if(treesBought > 0) {
+            createTree();
+            treesBought -= 1;
+            firstTime = false;
+        }
     }
+    for (let a of apples) {
+        if (dist(mouseX, mouseY, a.x, a.y) < 10) {
+            const index = apples.indexOf(a);
+            if (index !== -1) {
+                apples.splice(index, 1);
+                currentCash += 50;
+                createCashIndicator(a.x, a.y, 50, 10);
+            }
+        }
+    }
+
 }
 
 function drawFlower(x, y, size, r, g, b) {
@@ -339,6 +393,54 @@ function drawGrass(x, y, g, o) {
     endShape(CLOSE);
 }
 
+function drawSapling(x, y, s) {
+    const leafSize = s / 2;
+    const spacing = leafSize / 2;
+    fill("#4A8437");
+    rectMode(CENTER);
+    square(x, y+spacing, leafSize);
+    rectMode(CORNER);
+    circle(x, y - (spacing*1.5), leafSize);
+    circle(x - spacing, y - (spacing-3), leafSize);
+    circle(x + spacing, y - (spacing-3), leafSize);
+    circle(x - spacing, y + spacing, leafSize);
+    circle(x + spacing, y + spacing, leafSize);
+    strokeWeight(0);
+    circle(x, y-3, leafSize);
+    rectMode(CENTER);
+    square(x, y+(spacing-1), leafSize);
+    rectMode(CORNER);
+    strokeWeight(2);
+}
+
+function drawTree(x, y, g) {
+    //Trunk
+    fill(soilColor);
+    beginShape();
+    vertex(x + (20 * g), y);
+    vertex(x + (14 * g), y - (100 * g));
+    vertex(x + (14 * g), y - (200 * g));
+    vertex(x - (14 * g), y - (200 * g));
+    vertex(x - (14 * g), y - (100 * g));
+    vertex(x - (20 * g), y);
+    endShape(CLOSE);
+    
+    //Leaves
+    fill("#4A8437");
+    circle(x + (15 * g), y - (155 * g), 100 * g);
+    circle(x - (35 * g), y - (175 * g), 125 * g);
+    circle(x + (30 * g), y - (200 * g), 100 * g);
+    circle(x - (14 * g), y - (220 * g), 95 * g);
+    circle(x + (14 * g), y - (165 * g), 90 * g);
+    strokeWeight(0);
+    circle(x - (35 * g), y - (175 * g), 75 * g);
+    circle(x + (40 * g), y - (200 * g), 60 * g);
+    circle(x + (15 * g), y - (135 * g), 50 * g);
+
+    strokeWeight(2);
+    
+}
+
 function changeText(text, color){
     toChange = document.getElementById("title");
     toChange.innerHTML = text;
@@ -364,6 +466,16 @@ function createGrass() {
     grass.push(g.setXY(mouseX, mouseY));
 }
 
+function createTree() {
+    const t = trees.length == maxTrees && trees.shift() || new Tree;
+    trees.push(t.setXY(mouseX, mouseY, 0));
+}
+
+function createApple(x, y) {
+    const a = apples.length == maxApples && apples.shift() || new Apple;
+    apples.push(a.setXY(x, y));
+}
+
 function createCashIndicator(x, y, z, o) {
     const c = cashIndicators.length == 100000 && cashIndicators.shift() || new CashIndicator;
     cashIndicators.push(c.setXYCash(x, y, z, o));
@@ -385,10 +497,7 @@ class Flower {
         this.time += 1;
         this.time = max(0, min(this.time, 100));
         this.cashTime += 1;
-        fill("#000");
-        textFont(font);
-        textSize(20);
-        if(this.cashTime % 1000 == 0) {
+        if(this.cashTime % 500 == 0) {
             currentCash += 5;
             createCashIndicator(this.x, this.y, 5, 50);
         }
@@ -417,6 +526,58 @@ class Grass {
         this.time = max(0, min(this.time, 100));
         this.growth = easeOutBack(this.time, 0, 1, 100);
         drawGrass(this.x, this.y, (this.growth), this.orientation);
+    }
+}
+
+class Tree {
+    constructor(x, y) { this.setXY(x, y, this.cashTime); }
+    setXY(x, y, t) { 
+        this.x = x, this.y = y;
+        this.time = 0;
+        this.treeTime = 0;
+        this.cashTime = t; 
+        this.growth = 0;
+        return this; 
+    }
+    display() {
+        this.time += 1;
+        this.time = max(0, min(this.time, 100));
+        
+        this.cashTime += 1;
+        if(this.cashTime < 1000) {
+            fill(soilColor);
+            ellipse(this.x, this.y, 20, 10);
+            this.growth = easeOutBack(this.time, 0, 30, 100);
+            line(this.x, this.y, this.x, this.y-(this.growth));
+            drawSapling(this.x, this.y-(this.growth), (this.growth));
+        }
+        else {
+            this.treeTime += 1;
+            this.cashTime += 1;
+            print(this.cashTime % 2000);
+            if(this.cashTime % 2000 == 3) {
+                let chance = random([0, 1, 2])
+                if (chance == 0) {
+                    createApple(this.x, this.y-200);
+                }
+            }
+            this.treeTime = max(0, min(this.treeTime, 100));
+            this.growth = easeOutBack(this.treeTime, 0, 1, 100);
+            drawTree(this.x, this.y, (this.growth));
+        }
+    }
+}
+
+class Apple {
+    constructor(x, y) { this.setXY(x, y); }
+    setXY(x, y) {
+        this.x = (x-50) + random(0, 80), 
+        this.y = (y-60) + random(0, 150);
+        return this; 
+    }
+    display() {
+        fill("#C34040");
+        circle(this.x, this.y, 20);
     }
 }
 
