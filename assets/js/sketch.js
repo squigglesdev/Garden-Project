@@ -70,7 +70,6 @@ function saveGame() {
 function loadGame() {
     const fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
-    fileSelector.setAttribute("accept", "text/.json");
     fileSelector.addEventListener('change', (event) => {
         const fileList = event.target.files;
         parseFile(fileList[0]);
@@ -396,7 +395,7 @@ function touchEnded() {
         }
     }
     for (let a of apples) {
-        if (dist(mouseX, mouseY, a.x, a.y) < 10) {
+        if (dist(mouseX, mouseY, a.x, a.y) < 20) {
             const index = apples.indexOf(a);
             if (index !== -1) {
                 apples.splice(index, 1);
