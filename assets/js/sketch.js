@@ -93,7 +93,7 @@ function parseFile(file) {
         }
         trees = [];
         for(t in ALLDATA.trees) {
-            trees.push(new Tree(ALLDATA.trees[t].x, ALLDATA.trees[t].y).setXY(ALLDATA.trees[t].x, ALLDATA.trees[t].y), 1000);
+            trees.push(new Tree(ALLDATA.trees[t].x, ALLDATA.trees[t].y).setXY(ALLDATA.trees[t].x, ALLDATA.trees[t].y, 1000));
         }
         apples = [];
         for(a in ALLDATA.apples) {
@@ -272,7 +272,6 @@ function draw() {
             if(currentCash >= 500) {
                 currentCash -= 500;
                 treesBought += 1;
-                print(treesBought);
             }
         }
     }
@@ -554,7 +553,6 @@ class Tree {
         else {
             this.treeTime += 1;
             this.cashTime += 1;
-            print(this.cashTime % 2000);
             if(this.cashTime % 2000 == 3) {
                 createApple(this.x, this.y-200);
             }
