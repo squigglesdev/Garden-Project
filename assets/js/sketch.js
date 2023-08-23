@@ -6,8 +6,24 @@ let grass = [];
 let trees = [];
 let cashIndicators = [];
 
+let ALLDATA = {};
+
 let flowersUnlocked = false;
 let treesUnlocked = false;
+
+const pickerOpts = {
+    types: [
+      {
+        description: "Save File",
+        accept: {
+          "json/*": [".json"],
+        },
+      },
+    ],
+    excludeAcceptAllOption: true,
+    multiple: false,
+};
+
 
 let skyColor = "#82e4ff";
 let groundColor = "#75b560";
@@ -29,13 +45,91 @@ let time = 1;
 
 let flowerImage;
 
+function saveGame() {
+    ALLDATA = {
+        flowers: flowers,
+        grass: grass,
+        trees: trees,
+        cashIndicators: cashIndicators,
+        flowersUnlocked: flowersUnlocked,
+        treesUnlocked: treesUnlocked,
+        flowersBought: flowersBought,
+        grassBought: grassBought,
+        currentCash: currentCash,
+        firstTime: firstTime,
+        time: time
+    }
+    save(ALLDATA, "save.json");
+}
+
+function loadGame() {
+    print("load");
+    const fileSelector = document.createElement("input");
+    fileSelector.setAttribute("type", "file");
+    fileSelector.setAttribute("accept", ".json");
+    fileSelector.addEventListener('change', (event) => {
+        const fileList = event.target.files;
+        console.log(fileList);
+        parseFile(fileList[0]);
+    });
+    fileSelector.click();
+
+    
+    /*
+    ALLDATA = loadJSON(file, function() {
+        flowers = ALLDATA.flowers;
+        grass = ALLDATA.grass;
+        trees = ALLDATA.trees;
+        cashIndicators = ALLDATA.cashIndicators;
+        flowersUnlocked = ALLDATA.flowersUnlocked;
+        treesUnlocked = ALLDATA.treesUnlocked;
+        flowersBought = ALLDATA.flowersBought;
+        grassBought = ALLDATA.grassBought;
+        currentCash = ALLDATA.currentCash;
+        firstTime = ALLDATA.firstTime;
+        time = ALLDATA.time;
+    });*/
+}
+
+function parseFile(file) {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+        const result = event.target.result;
+        print(result);
+        ALLDATA = JSON.parse(result);
+        print(ALLDATA);
+        for(f in ALLDATA.flowers) {
+            flowers.push(new Flower(ALLDATA.flowers[f].x, ALLDATA.flowers[f].y).setXYRGBT(ALLDATA.flowers[f].x, ALLDATA.flowers[f].y, ALLDATA.flowers[f].r, ALLDATA.flowers[f].g, ALLDATA.flowers[f].b, ALLDATA.flowers[f].time));
+        }
+        for(g in ALLDATA.grass) {
+            grass.push(new Grass(ALLDATA.grass[g].x, ALLDATA.grass[g].y).setXY(ALLDATA.grass[g].x, ALLDATA.grass[g].y));
+        }
+        for(c in ALLDATA.cashIndicators) {
+            cashIndicators.push(new CashIndicator(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y).setXYCash(ALLDATA.cashIndicators[c].x, ALLDATA.cashIndicators[c].y, ALLDATA.cashIndicators[c].c, ALLDATA.cashIndicators[c].offset));
+        }
+        trees = ALLDATA.trees;
+        flowersUnlocked = ALLDATA.flowersUnlocked;
+        treesUnlocked = ALLDATA.treesUnlocked;
+        flowersBought = ALLDATA.flowersBought;
+        grassBought = ALLDATA.grassBought;
+        currentCash = ALLDATA.currentCash;
+        firstTime = ALLDATA.firstTime;
+        time = ALLDATA.time;
+    });
+    reader.readAsText(file);
+}
+
+
+function preload() {
+    flowerImage = loadImage("assets/sprites/flowerPurchase.png");
+    grassImage = loadImage("assets/sprites/grassPurchase.png");
+    font = loadFont("assets/fonts/ceraProMedium.otf");
+}
+
 function setup() {
   canvas = createCanvas(800, 400);
   canvas.parent("game");
   frameRate(165);
-  flowerImage = loadImage("assets/sprites/flowerPurchase.png");
-  grassImage = loadImage("assets/sprites/grassPurchase.png");
-  font = loadFont("assets/fonts/ceraProMedium.otf");
 }
 
 function draw() {
@@ -47,6 +141,7 @@ function draw() {
     fill(sunColor);
     circle(sunPosX, 0, 250);
 
+    
     for (let g of grass) {
         g.display();
     }
@@ -55,15 +150,33 @@ function draw() {
         f.display();
     }
 
-
     for (let c of cashIndicators) {
         c.display();
     }
+
 
     time += 0.01;
     time = max(0, min(time, 1));
 
     textAlign(CENTER);
+
+    fill("#fff");
+    strokeWeight(2);
+    let saveButton = button(555, 25, 60, 30);
+    fill("#000");
+    textFont(font);
+    textSize(20);
+    text("Save", 585, 45);
+
+    fill("#fff");
+    strokeWeight(2);
+    let loadButton = button(625, 25, 60, 30);
+    fill("#000");
+    textFont(font);
+    textSize(20);
+    text("Load", 655, 45);
+
+
     fill("#fff");
     strokeWeight(2);
     let buyGrassButton = button(695, 25, 70, 90);
@@ -99,7 +212,7 @@ function draw() {
         fill("#000");
         textFont(font);
         textSize(20);
-        text("Click to buy a plant →", 450, 75);
+        text("Click to buy a plant →", 480, 110);
     }
 
     textAlign(CENTER);
@@ -139,6 +252,14 @@ function draw() {
 
     if(currentCash >= 100) {
         flowersUnlocked = true;
+    }
+
+    if(saveButton) {
+        saveGame();
+    }
+
+    if(loadButton) {
+        loadGame();
     }
 
     uiupd();
