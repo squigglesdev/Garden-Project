@@ -3,6 +3,6 @@
 <p align="center">You can give it a go <a href="https://squigglesdev.github.io/Garden-Project">here</a>!</p>
 
 ## Roadmap
-- [ ] Add apple tree plant type
+- [x] Add apple tree plant type
 - [x] Save system
 - [ ] Presteige system
