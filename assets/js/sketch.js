@@ -556,10 +556,7 @@ class Tree {
             this.cashTime += 1;
             print(this.cashTime % 2000);
             if(this.cashTime % 2000 == 3) {
-                let chance = random([0, 1, 2])
-                if (chance == 0) {
-                    createApple(this.x, this.y-200);
-                }
+                createApple(this.x, this.y-200);
             }
             this.treeTime = max(0, min(this.treeTime, 100));
             this.growth = easeOutBack(this.treeTime, 0, 1, 100);
