@@ -5,10 +5,10 @@
 ## Roadmap
 - [x] Add apple tree plant type
 - [x] Save system
-- [ ] Presteige system
+- [ ] Prestige system
 - [ ] Music
 - [ ] SFX
-- [ ] Touch support
+- [x] Touch support
 - [x] Falling apples
 - [ ] Saves append timestamp
 - [ ] Enemies

@@ -377,6 +377,37 @@ function mouseClicked() {
 
 }
 
+function touchEnded() {
+    if(mouseY > 300 && mouseY < 400 && mouseX > 0 && mouseX < 800) {
+        if(flowersBought > 0) {
+            createFlower();
+            flowersBought -= 1;
+            firstTime = false;
+        }
+        else if(grassBought > 0) {
+            createGrass();
+            grassBought -= 1;
+            firstTime = false;
+        }
+        else if(treesBought > 0) {
+            createTree();
+            treesBought -= 1;
+            firstTime = false;
+        }
+    }
+    for (let a of apples) {
+        if (dist(mouseX, mouseY, a.x, a.y) < 10) {
+            const index = apples.indexOf(a);
+            if (index !== -1) {
+                apples.splice(index, 1);
+                currentCash += 50;
+                createCashIndicator(a.x, a.y, 50, 10);
+            }
+        }
+    }
+
+}
+
 function drawFlower(x, y, size, r, g, b) {
     const petalSize = size / 2;
     const spacing = petalSize / 2;
