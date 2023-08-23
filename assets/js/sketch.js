@@ -35,6 +35,7 @@ function setup() {
   frameRate(165);
   flowerImage = loadImage("assets/sprites/flowerPurchase.png");
   grassImage = loadImage("assets/sprites/grassPurchase.png");
+  font = loadFont("assets/fonts/ceraProMedium.otf");
 }
 
 function draw() {
@@ -68,7 +69,7 @@ function draw() {
     let buyGrassButton = button(695, 25, 70, 90);
     image(grassImage, 700, 30, 60, 60);
     fill("#000");
-    textFont("Cera Pro");
+    textFont(font);
     textSize(20);
     text("$10", 730, 107)
 
@@ -78,7 +79,7 @@ function draw() {
         buyFlowerButton = button(695, 125, 70, 90);
         image(flowerImage, 700, 130, 60, 60);
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(20);
         text("$50", 730, 207);
     }
@@ -89,14 +90,14 @@ function draw() {
 
     if((flowersBought > 0 || grassBought > 0)&& firstTime) {
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(20);
         text("Click anywhere in the green area to plant.\nThey will generate cash over time.\nNew plants will unlock when you have enough cash!", 20, 330);
     }
 
     if((flowersBought == 0 && grassBought == 0)&& firstTime) {
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(20);
         text("Click to buy a plant →", 450, 75);
     }
@@ -107,7 +108,7 @@ function draw() {
         fill("#fff");
         circle(765, 125, 25)
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(15);
         text(flowersBought, 765, 130);
     }
@@ -116,7 +117,7 @@ function draw() {
         fill("#fff");
         circle(765, 25, 25)
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(15);
         text(grassBought, 765, 30);
     }
@@ -264,7 +265,7 @@ class Flower {
         this.time = max(0, min(this.time, 100));
         this.cashTime += 1;
         fill("#000");
-        textFont("Cera Pro");
+        textFont(font);
         textSize(20);
         if(this.cashTime % 1000 == 0) {
             currentCash += 5;
@@ -321,7 +322,7 @@ class CashIndicator {
         this.alpha = 255 - easeOutSine(this.time, 0, 255, 100);
         this.textColor = color(0, 0, 0, this.alpha);
         fill(this.textColor);
-        textFont("Cera Pro");
+        textFont(font);
         textSize(20);
         text("+ $" + this.c, this.x, this.y-(this.offset+easeOutSine(this.time, 0, 30, 100)));
         this.textColor.setAlpha(easeOutSine(this.time, 255, 0, 100));

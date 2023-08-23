@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'CeraProMed';
+    src: 
+        /*local("Cera Pro Medium"),*/
+        url("../fonts/ceraProMedium.otf") format("opentype");
+}
+@font-face {
+    font-family: 'CeraProBold';
+    src: url("../fonts/ceraProBold.otf") format("opentype");
+}
 html {
     cursor: url('../sprites/Cursor.png') 7 3, default;
 }
@@ -19,7 +29,7 @@ main{
     border: 2px solid black;
 }
 h1 {
-    font-family: 'Cera Pro', 'Century Gothic', sans-serif;
+    font-family: CeraProBold, 'Century Gothic', sans-serif;
     font-weight: 700;
     font-size: 50px;
     line-height: 50px;
@@ -35,7 +45,7 @@ canvas {
     border-radius: 25px;
 }
 #titleBar {
-    font-family: 'Cera Pro', 'Century Gothic', sans-serif;
+    font-family: CeraProMed, 'Century Gothic', sans-serif;
     display: flex;
     justify-content: space-between;
     padding-left: 30px;
@@ -53,7 +63,7 @@ canvas {
     user-select: none;
 }
 #copyright{
-    font-family: 'Cera Pro', 'Century Gothic', sans-serif;
+    font-family: CeraProMed, 'Century Gothic', sans-serif;
     font-weight: 500;
     font-size: 15px;
     line-height: 15px;
