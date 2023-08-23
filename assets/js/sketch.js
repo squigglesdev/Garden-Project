@@ -243,7 +243,7 @@ function draw() {
         fill("#000");
         textFont(font);
         textSize(20);
-        text("Click to buy a plant →", 480, 110);
+        text("Click to buy a plant →", 480, 105);
     }
 
     textAlign(CENTER);
