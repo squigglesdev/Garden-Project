@@ -379,34 +379,42 @@ function mouseClicked() {
 }
 
 function touchEnded() {
-    if(mouseY > 300 && mouseY < 400 && mouseX > 0 && mouseX < 800) {
-        if(flowersBought > 0) {
-            createFlower();
-            flowersBought -= 1;
-            firstTime = false;
+    if (navigator.userAgent.match(/Android/i)
+         || navigator.userAgent.match(/webOS/i)
+         || navigator.userAgent.match(/iPhone/i)
+         || navigator.userAgent.match(/iPad/i)
+         || navigator.userAgent.match(/iPod/i)
+         || navigator.userAgent.match(/BlackBerry/i)
+         || navigator.userAgent.match(/Windows Phone/i)) 
+         {
+        if(mouseY > 300 && mouseY < 400 && mouseX > 0 && mouseX < 800) {
+            if(flowersBought > 0) {
+                createFlower();
+                flowersBought -= 1;
+                firstTime = false;
+            }
+            else if(grassBought > 0) {
+                createGrass();
+                grassBought -= 1;
+                firstTime = false;
+            }
+            else if(treesBought > 0) {
+                createTree();
+                treesBought -= 1;
+                firstTime = false;
+            }
         }
-        else if(grassBought > 0) {
-            createGrass();
-            grassBought -= 1;
-            firstTime = false;
-        }
-        else if(treesBought > 0) {
-            createTree();
-            treesBought -= 1;
-            firstTime = false;
-        }
-    }
-    for (let a of apples) {
-        if (dist(mouseX, mouseY, a.x, a.y) < 20) {
-            const index = apples.indexOf(a);
-            if (index !== -1) {
-                apples.splice(index, 1);
-                currentCash += 50;
-                createCashIndicator(a.x, a.y, 50, 10);
+        for (let a of apples) {
+            if (dist(mouseX, mouseY, a.x, a.y) < 20) {
+                const index = apples.indexOf(a);
+                if (index !== -1) {
+                    apples.splice(index, 1);
+                    currentCash += 50;
+                    createCashIndicator(a.x, a.y, 50, 10);
+                }
             }
         }
     }
-
 }
 
 function drawFlower(x, y, size, r, g, b) {
