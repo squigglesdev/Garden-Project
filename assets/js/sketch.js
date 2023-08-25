@@ -656,16 +656,19 @@ function touchEnded() {
                 createFlower();
                 flowersBought -= 1;
                 firstTime = false;
+                plantSound.play();
             }
             else if(grassBought > 0) {
                 createGrass();
                 grassBought -= 1;
                 firstTime = false;
+                plantSound.play();
             }
             else if(treesBought > 0) {
                 createTree();
                 treesBought -= 1;
                 firstTime = false;
+                plantSound.play();
             }
         }
         for (let a of apples) {
