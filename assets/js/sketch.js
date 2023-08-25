@@ -167,27 +167,27 @@ function parseFile(file) {
 
 function preload() {
     //Spring sprites
-    grassImage = loadImage("assets/sprites/grassPurchase.png");
-    flowerImage = loadImage("assets/sprites/flowerPurchase.png");   
-    cherryTreeImage = loadImage("assets/sprites/cherryTreePurchase.png");
+    grassImage = loadImage("assets/sprites/grassPurchase.svg");
+    flowerImage = loadImage("assets/sprites/flowerPurchase.svg");   
+    cherryTreeImage = loadImage("assets/sprites/cherryTreePurchase.svg");
 
     //Summer sprites
-    carrotImage = loadImage("assets/sprites/carrotPurchase.png");
-    cornImage = loadImage("assets/sprites/cornPurchase.png");
-    orangeTreeImage = loadImage("assets/sprites/orangeTreePurchase.png");
+    carrotImage = loadImage("assets/sprites/carrotPurchase.svg");
+    cornImage = loadImage("assets/sprites/cornPurchase.svg");
+    orangeTreeImage = loadImage("assets/sprites/orangeTreePurchase.svg");
 
     //Autumn sprites
-    shroomImage = loadImage("assets/sprites/shroomPurchase.png");
-    pumpkinImage = loadImage("assets/sprites/pumpkinPurchase.png");
-    appleTreeImage = loadImage("assets/sprites/appleTreePurchase.png");
+    shroomImage = loadImage("assets/sprites/shroomPurchase.svg");
+    pumpkinImage = loadImage("assets/sprites/pumpkinPurchase.svg");
+    appleTreeImage = loadImage("assets/sprites/appleTreePurchase.svg");
 
     //Winter sprites
-    presentImage = loadImage("assets/sprites/presentPurchase.png");
-    snowmanImage = loadImage("assets/sprites/snowmanPurchase.png");
-    xmasImage = loadImage("assets/sprites/xmasTreePurchase.png");
+    presentImage = loadImage("assets/sprites/presentPurchase.svg");
+    snowmanImage = loadImage("assets/sprites/snowmanPurchase.svg");
+    xmasImage = loadImage("assets/sprites/xmasTreePurchase.svg");
 
     //Other sprites
-    unknownImage = loadImage("assets/sprites/unknownPurchase.png");
+    unknownImage = loadImage("assets/sprites/unknownPurchase.svg");
 
     //Sound effects
     tapSound = loadSound("assets/audio/tap.wav");

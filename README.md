@@ -13,3 +13,4 @@
 - [x] Saves append timestamp
 - [ ] Enemies
 - [ ] Speed controls
+- [ ] Encrypt save files
