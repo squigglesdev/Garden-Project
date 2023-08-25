@@ -10,6 +10,6 @@
 - [x] SFX
 - [x] Touch support
 - [x] Falling apples
-- [ ] Saves append timestamp
+- [x] Saves append timestamp
 - [ ] Enemies
 - [ ] Speed controls

@@ -112,7 +112,7 @@ function saveGame() {
         firstTime: firstTime,
         time: time
     }
-    save(ALLDATA, "save.json");
+    save(ALLDATA, "save" + new Date().toISOString().slice(0, 10) + ".json");
 }
 
 function loadGame() {
