@@ -7,7 +7,7 @@
 - [x] Save system
 - [x] Prestige system
 - [ ] Music
-- [ ] SFX
+- [x] SFX
 - [x] Touch support
 - [x] Falling apples
 - [ ] Saves append timestamp

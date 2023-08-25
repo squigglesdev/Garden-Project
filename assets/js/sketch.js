@@ -188,6 +188,15 @@ function preload() {
 
     //Other sprites
     unknownImage = loadImage("assets/sprites/unknownPurchase.png");
+
+    //Sound effects
+    tapSound = loadSound("assets/audio/tap.wav");
+    failSound = loadSound("assets/audio/fail.wav");
+    cashSound = loadSound("assets/audio/coin.wav");
+    levelUpSound = loadSound("assets/audio/levelUp.wav");
+    plantSound = loadSound("assets/audio/plant.wav");
+
+    //Fonts
     font = loadFont("assets/fonts/ceraProMedium.otf");
 }
 
@@ -195,6 +204,7 @@ function setup() {
     canvas = createCanvas(800, 400);
     canvas.parent("game");
     frameRate(165);
+    cashSound.setVolume(0.5);
 }
 
 function draw() {
@@ -474,6 +484,10 @@ function draw() {
             if(currentCash >= Math.trunc(50 * prestigeMultiplier * 1.25)) {
                 currentCash -= Math.trunc(50 * prestigeMultiplier * 1.25);
                 flowersBought += 1;
+                tapSound.play();
+            }
+            else {
+                failSound.play();
             }
         }
     }
@@ -483,6 +497,10 @@ function draw() {
             if(currentCash >= Math.trunc(500 * prestigeMultiplier * 1.25)) {
                 currentCash -= Math.trunc(500 * prestigeMultiplier * 1.25);
                 treesBought += 1;
+                tapSound.play();
+            }
+            else {
+                failSound.play();
             }
         }
     }
@@ -491,6 +509,10 @@ function draw() {
         if(currentCash >= Math.trunc(10 * prestigeMultiplier * 1.25)) {
             currentCash -= Math.trunc(10 * prestigeMultiplier * 1.25);
             grassBought += 1;
+            tapSound.play();
+        }
+        else {
+            failSound.play();
         }
     }
 
@@ -526,6 +548,11 @@ function draw() {
                 else if(farmType == "winter") {
                     farmType = "spring";
                 }
+                tapSound.play();
+                levelUpSound.play();
+            }
+            else {
+                failSound.play();
             }
         }
     }
@@ -587,16 +614,19 @@ function mouseClicked() {
             createFlower();
             flowersBought -= 1;
             firstTime = false;
+            plantSound.play();
         }
         else if(grassBought > 0) {
             createGrass();
             grassBought -= 1;
             firstTime = false;
+            plantSound.play();
         }
         else if(treesBought > 0) {
             createTree();
             treesBought -= 1;
             firstTime = false;
+            plantSound.play();
         }
     }
     for (let a of apples) {
