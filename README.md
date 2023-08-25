@@ -12,3 +12,4 @@
 - [x] Falling apples
 - [ ] Saves append timestamp
 - [ ] Enemies
+- [ ] Speed controls
