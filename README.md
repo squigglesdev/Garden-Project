@@ -5,7 +5,7 @@
 ## Roadmap
 - [x] Add apple tree plant type
 - [x] Save system
-- [ ] Prestige system
+- [x] Prestige system
 - [ ] Music
 - [ ] SFX
 - [x] Touch support
