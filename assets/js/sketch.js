@@ -1047,7 +1047,7 @@ class Fruit {
             circle(this.x, this.y, 20);
         }
         if(this.time > 500) {
-            this.y = easeInSine(this.time, this.yy, 200, 100);
+            this.y = easeOutSine(this.time, this.yy, 200, 100);
         }
         if(this.time > 600) {
             createCashIndicator(this.x, this.y, 40 * prestigeMultiplier, 10);
